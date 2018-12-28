@@ -1,5 +1,6 @@
 from perceptron import Perceptron
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 f = lambda x: x
 
@@ -26,8 +27,30 @@ if __name__ == "__main__":
     linear_unit = train_linear_unit()
     print(linear_unit)
 
-    print("work 3.4 years, monthly salary = %.2f" % linear_unit.predict([3.4]))
-    print("work 15 years, monthly salary = %.2f" % linear_unit.predict([15]))
-    print("work 1.5 years, monthly salary = %.2f" % linear_unit.predict([1.5]))
-    print("work 6.3 years, monthly salary = %.2f" % linear_unit.predict([6.3]))
+    predict_year = [[3.4], [15], [1.5], [6.3]]
+    predict_year_list = [3.4, 15, 1.5, 6.3]
+    predict_salary = []
+    for year in predict_year:
+        predict_salary.append(linear_unit.predict(year))
+    for i in range(4):    
+        print("work",predict_year_list[i], "years, monthly salary = %.2f" % predict_salary[i])
     
+    """-----------start to draw------------"""
+    input_vecs = [5, 3, 8, 1.4, 10.1]
+    labels = [5500, 2300, 7600, 1800, 11400]
+
+    fig, ax = plt.subplots()
+    ax.set_title('salary prediction')
+    ax.set_xlabel('working years', fontsize=15)
+    ax.set_ylabel('salary', fontsize=15)
+    """green color: training set"""
+    ax.scatter(input_vecs, labels, color="green", alpha=0.5)
+    """red color: predict set"""
+    ax.scatter(predict_year_list, predict_salary, color="red", alpha=0.5)
+
+    t = np.arange(0.0, 20.0, 0.01)
+    s = linear_unit.weights * t + linear_unit.bias
+    ax.plot(t,s)
+    
+    ax.grid(True)
+    plt.show()
